@@ -1,4 +1,4 @@
-# Import necessary modules
+
 import sys
 from PyQt5.QtWidgets import QApplication, QVBoxLayout
 from Login.c2w_login import LoginWindow # Import the LoginWindow class from login module
