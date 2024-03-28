@@ -6,24 +6,21 @@ from google.cloud import firestore
 import json
 from dbConfig import db
 
-# LoginWindow class definition
+
 class LoginWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.layout = QVBoxLayout()
-        # Creating outer widget for login interface
         self.outerWidgetLogin = QWidget()
         self.outerWidgetLogin.setStyleSheet("background:#f9f9fc;max-height:600px; max-width:400px; border-radius:15px; margin-left:160px")
 
-        # Loading logo image
+    
         pixmap = QPixmap("./assets/images/logo.png")
-        # Displaying logo image
         self.image_label = QLabel(self)
         self.image_label.setPixmap(pixmap)
         self.image_label.setGeometry(0, 0, 10,10)
         self.image_label.setAlignment(Qt.AlignHCenter)
         self.image_label.setStyleSheet("margin-bottom:20px; margin-top:10px")
-        # Adding shadow effect to the login interface
         shadow = QGraphicsDropShadowEffect(self.outerWidgetLogin)
         shadow.setColor(QColor(63, 63, 63, 180)) # Set shadow color and opacity
         shadow.setBlurRadius(20) # Set blur radius
@@ -31,7 +28,6 @@ class LoginWindow(QWidget):
         shadow.setYOffset(5) # Set vertical offset
         self.outerWidgetLogin.setGraphicsEffect(shadow)
         
-        # Layout for outer widget
         outer_layout = QVBoxLayout(self.outerWidgetLogin)
         
         # Creating UI elements
@@ -72,7 +68,6 @@ class LoginWindow(QWidget):
         self.setStyleSheet("background: qlineargradient(x1:0, y1:0, x2:0, y2:1,stop:0 #013565, stop:1 #057be7); min-height:40px;")
         self.setLayout(self.layout)
         
-        # Event handlers for UI elements
 
     def on_enter(self, event):
         self.userForgot.setStyleSheet("color: blue; margin-bottom:20px")
@@ -85,19 +80,17 @@ class LoginWindow(QWidget):
     
     def on_leave_btn(self,event):
         self.submitBtn.setStyleSheet("background: qlineargradient(x1:0, y1:0,x2:1, y2:0, stop:0 #013565, stop:1 #057be7);width:350px; font-size:20px;color:#ffffff; margin-top:50px")
-        # Method to handle login submission
+   
     
     def submit(self):
         mobileNo = self.userEmailLabel.text()
         password = self.userPassLabel.text()
-        # Validating mobile number format
         if not mobileNo.isdigit() or len(mobileNo) != 10:
             QMessageBox.critical(self, "Error", "Please enter a valid 10-digitmobile number.")
             return
-        # Retrieving user profiles from Firestore
         user_profiles_ref = db.collection('c2w_admin')
         user_profiles = user_profiles_ref.stream()
-        # Authenticating user
+        
         for user_profile in user_profiles:
             user_data = user_profile.to_dict()
             if(user_data['mobileNo']==mobileNo and user_data['password']==password):
